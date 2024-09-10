@@ -1,0 +1,1 @@
+This is the read me file for the Trinity Hospital Management system. I will keep updating it as i go along
