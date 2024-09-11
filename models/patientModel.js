@@ -6,6 +6,10 @@ const patientSchema = new mongoose.Schema ({
         type: String,
         required: true
     },
+    cardNumber: {
+        type: Number,
+        required: true
+    },
     age: {
         type: Number,
         required: true
