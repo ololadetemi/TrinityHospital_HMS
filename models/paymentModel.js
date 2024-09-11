@@ -10,6 +10,10 @@ const paymentSchema = new mongoose.Schema ({
         type: mongoose.Schema.Types.ObjectId, ref: 'User',
         required: true
     },
+    cardNumber: {
+        type: Number,
+        required: true
+    },
     amount: {
         type: Number,
         required: true

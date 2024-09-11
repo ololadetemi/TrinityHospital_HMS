@@ -3,6 +3,7 @@ const Appointment = require('../models/appointmentModel');
 const Payment = require('../models/paymentModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Patient = require('../models/patientModel');
 
 //Function to create a new user/staff
 
@@ -27,11 +28,12 @@ res.status(201).json({messahe: 'User created successfully', user:newUser});
     }
 };
 
+//finding user by their id and updating the info
 exports.updateUser = async(req, res) => {
     const { id } = req.params;
     const { name, email, role } = req.body;
     try{
-        //finding user by their id and updating the info
+        
         const updateUser = await User.findByIdAndDelete(id, { name, email, role }, { new: true} );
         if(!updateUser){
             return res.send(404).json({message: 'Cannot find this user'});
@@ -42,6 +44,7 @@ exports.updateUser = async(req, res) => {
     }
 };
 
+//getting all users
 exports.getAllUsers = async(req, res) => {
     try{
         const users = await User.find();
@@ -50,6 +53,8 @@ exports.getAllUsers = async(req, res) => {
         res.status(500).json({message: 'error.message'});
     }
 };
+
+//get specific user by their id
 
 exports.getUserById = async(req, res) => {
     const { id } = req.params;
@@ -62,3 +67,34 @@ exports.getUserById = async(req, res) => {
     }
 };
 
+//deleting a specific user using their id
+
+exports.deleteUser = async(req, res) => {
+    const { id } = req.params;
+    const { name, email, role } = req.body;
+    try{
+        const deleteUser = await User.findByIdAndDelete(id, { name, email, role});
+        if(!deleteUser) {
+            return res.status(404).json({message: 'this user does not exist'});
+        }
+        res.status(200).json({message: 'user deleted successfully'})
+    }catch (error) {
+        res.status(500).json({message: 'error deleting user', error});
+    }
+};
+
+//view payments by patients by card number
+
+exports.viewPayment = async(req, res) => {
+    const { cardNumber } = req.query;
+    try{
+        const patient = await Patient.findOne({ cardNumber });
+        if(!patient) {
+            return res.status(404).json({message: 'Patient not found'});
+        }
+        const payment = await Payment.find({ patientId: patient._id });
+        res.status(200).json(payment)
+    } catch (error) {
+        res.status(500).json({message: 'error retrieving payments', error});
+    }
+};
