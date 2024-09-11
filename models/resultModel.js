@@ -1,14 +1,19 @@
 const mongoose = require('mongoose');
 
-const labSchema = new mongoose.Schema({
+const resultSchema = new mongoose.Schema({
 
     patientName: {
         type: mongoose.Schema.Types.ObjectId, ref: 'Patient',
         required: true
     },
-    labTechnician: {
+    technician: {
         type: mongoose.Schema.Types.ObjectId, ref: 'User',
         required: true
+    },
+    testType: {
+        type: String,
+        required: true,
+        enum: ['Lab', 'Radiology', 'Diagnostic', 'Other']
     },
     testName: {
         type: String,
@@ -30,6 +35,6 @@ const labSchema = new mongoose.Schema({
     
 });
 
-const Lab = mongoose.model('lab', labSchema);
+const Result = mongoose.model('result', resultSchema);
 
-module.exports = Lab;
+module.exports = Result;
