@@ -30,9 +30,22 @@ const patientSchema = new mongoose.Schema ({
     registeredBy: {
         type: mongoose.Schema.Types.ObjectId, ref: 'User'
     },
-    doctorsNotes: {
-        type: String
-    },
+    doctorsNotes: [
+        {
+            doctorId: {
+                type: mongoose.Schema.Types.ObjectId, ref: 'User',
+                required: true
+            },
+            note: {
+                type: String,
+                required: true
+            },
+            date: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ],
     createdAt: {
         type: Date,
         default: Date.now
