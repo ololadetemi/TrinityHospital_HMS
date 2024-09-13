@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 const Patient = require('../models/patientModel')
 const Appointment = require('../models/appointmentModel');
-
+const Result = require("../models/resultModel");
 exports.getPatientRecords = async(req, res) => {
     try{
         const patientRecords = await Patient.find();
@@ -64,3 +64,18 @@ exports.editDoctorNote = async(req, res) => {
 }
 
 //I don't think i want to have a delete doctor's note because its a patient record and the doctor should not have the power to erase a note completely from existence
+
+//allow doctor's view appointment
+exports.viewAppointments = async(req, res) => {
+    try{
+        const appointments = await Appointment.find();
+        res.status(200).json({ message: 'Appointments retrieved', appointments})
+    } catch (error) {
+        res.status(500).json({message: 'Error retrieving appointments', error});
+    }
+};
+
+//allow doctor to view  specific patient result
+exports.viewResults = async(req, res) => {
+    
+}

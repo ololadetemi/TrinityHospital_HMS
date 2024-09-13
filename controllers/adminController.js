@@ -102,7 +102,7 @@ exports.viewPayment = async(req, res) => {
 exports.viewAppointments = async(req, res) => {
     try{
         const appointments = await Appointment.find();
-        res.status(200).json({ message: 'Appointments retrived', appointments})
+        res.status(200).json({ message: 'Appointments retrieved', appointments})
     } catch (error) {
         res.status(500).json({message: 'Error retrieving appointments', error});
     }
