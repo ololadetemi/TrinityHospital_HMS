@@ -2,6 +2,8 @@ const User = require('../models/userModel');
 const Patient = require('../models/patientModel')
 const Appointment = require('../models/appointmentModel');
 const Result = require("../models/resultModel");
+
+
 exports.getPatientRecords = async(req, res) => {
     try{
         const patientRecords = await Patient.find();
@@ -77,5 +79,18 @@ exports.viewAppointments = async(req, res) => {
 
 //allow doctor to view  specific patient result
 exports.viewResults = async(req, res) => {
-    
-}
+    try{
+        const patientId = req.params.id;
+
+    const patient = Patient.findById(patientId);
+    if (!patient) {
+        return res.status(404).json({ message: 'Patient result not found' });
+    }
+
+    //get all the results for the patient
+    const results = await Result.find({ patient: patientId });
+    res.status(200).json({ patient, results });
+    } catch (error) {
+        res.status(500).json({ message: 'Error getting results', error });
+    }
+};

@@ -1,3 +1,4 @@
+//this controller handles admin logic where the admin can create, update, get and delete users(staff), view patient payments and view appointments
 const User = require('../models/userModel');
 const Appointment = require('../models/appointmentModel');
 const Payment = require('../models/paymentModel');
