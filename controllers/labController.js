@@ -1,6 +1,7 @@
 //this is a controller for the lab technicians to upload patient results
 const Result = require('../models/resultModel');
 const User = require('../models/userModel');
+const upload = require('../config/multerConfig')
 
 
 //adding patient result
@@ -29,7 +30,7 @@ exports.addLabResult = async(req, res) => {
 exports.editResult = async(req, res) => {
     const { resultId, patientName, resultFile, testName, result} = req.body;
     try {
-        const updatedResult = Result.findByIdAndUpdate(resultId,
+        const updatedResult = await Result.findByIdAndUpdate(resultId,
             {
                 patientName, testName, resultFile, result}, { new: true}
     );
