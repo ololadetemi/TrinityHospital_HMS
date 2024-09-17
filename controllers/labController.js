@@ -38,6 +38,6 @@ exports.editResult = async(req, res) => {
     }
     res.status(200).json({ message: 'Result edited successfully', result: updatedResult});
     } catch (error) {
-        res.status(500).json({ message: 'Error editing result', error })
+        res.status(500).json({ message: 'Error editing result', error });
     }
-}
+};
