@@ -3,6 +3,7 @@
 const User = require('../models/userModel');
 const Appointment = require('../models/appointmentModel');
 const Patient = require('../models/patientModel');
+const Payment = require('../models/paymentModel');
 //To create patient data 
 exports.createPatient = async(req, res) => {
     const { name, cardNumber, age, gender, contact, address } = req.body;
@@ -69,10 +70,34 @@ exports.removeAppointment = async(req, res) => {
 };
 
 //create or input payment
-exports.createPayment = (req, res) => {
-    const { patientId, paymentMethod, amount, date } = req.body;
+exports.createPayment = async(req, res) => {
+    const { patientName, receptionist, cardNumber, amount, amountPaid, method } = req.body;
     try {
-        const newPayment = Payment
+        const outstandingAmount = amount - amountPaid;  //calculating the outstanding payment
+        const newPayment = new Payment({
+            patientName, receptionist, cardNumber, amount, amountPaid, outstandingAmount, method
+        });
+        await newPayment.save();
+        res.status(200).json({ message: 'Paymment entered successfully'})
+    } catch (error) {
+        res.status(500).json({ message: 'Error entering payment', error})
+    }
+};
+
+//edit a payment
+exports.editPayment = (req, res) => {
+    const { patientId, amount, amountPaid, method } = req.body;
+    try {
+        const updatedPayment = Payment.findByIdAndUpdate(patientId,
+         {
+            amount, amountPaid, method }, {new: true}
+        );
+        if (!updatedPayment) {
+            return res.status(404).json({ message: 'Payment not found'});
+        }
+        res.status(200).json({ message: 'Paymment edited successfully'})
+    } catch (error) {
+        res.status(500).json({ message: 'Error editing payment', error})
     }
 }
 
