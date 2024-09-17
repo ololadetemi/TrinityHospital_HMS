@@ -101,7 +101,7 @@ exports.editPayment = (req, res) => {
     }
 }
 
-//view appointments
+//view appointments based on some filters
 exports.viewAppointments = async(req, res) => {
     const { doctor, patientId, cardNumber } = req.query;
     try{
@@ -118,10 +118,20 @@ exports.viewAppointments = async(req, res) => {
         if(!appointments || appointments.length === 0) {
             return res.status(404).json({ message: 'No appointment found'});
         }
-        res.status(200).json({ message: 'Appointments received', appointments })
+        res.status(200).json({ message: 'Appointments retrieved', appointments })
 
     } catch (error) {
         res.status(500).json({ message: 'Error fetching appointments', error});
+    }
+};
+
+//viewing all appointments
+exports.viewAppointments = async(req, res) => {
+    try{
+        const appointments = await Appointment.find();
+        res.status(200).json({ message: 'All appointments retrieved', appointments})
+    } catch (error) {
+        res.status(500).json({message: 'Error retrieving all appointments', error});
     }
 };
 
