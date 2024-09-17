@@ -101,3 +101,27 @@ exports.editPayment = (req, res) => {
     }
 }
 
+//view appointments
+exports.viewAppointments = async(req, res) => {
+    const { doctor, patientId, cardNumber } = req.query;
+    try{
+        let filter = {};
+        if (patientId) filter.patient = patientId;
+        if(doctor) filter.doctor = doctor;
+        if(cardNumber) filter.cardNumber = cardNumber;
+
+        //get appointments based on the filter
+        const appointments = await Appointment.find(filter)
+        .populate('patient', 'name') //populate the patient details with only name
+        .populate('doctor', 'name');
+
+        if(!appointments || appointments.length === 0) {
+            return res.status(404).json({ message: 'No appointment found'});
+        }
+        res.status(200).json({ message: 'Appointments received', appointments })
+
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching appointments', error});
+    }
+};
+
