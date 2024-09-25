@@ -22,9 +22,20 @@ exports.login = async (req, res) => {
         });
         res.satus(200).json({ message: 'Login successful', token });
     } catch (error) {
-        escape.status(500).json({ message: 'Server error', error });
+        res.status(500).json({ message: 'Server error', error });
     };
 };
 
 //To allow admin create new staff only
-exports.register
+exports.register = async(req, res) => {
+    const { name, email, role, password } = req.body;
+
+    try {
+        const newUser = new User({ name, email, role, password });
+        await newUser.save();
+        res.status(201).json({ message: 'User created successfully', user: newUser });
+    } catch (error) {
+        res.status(500).json({ message: 'Error creating user', error });
+    }
+
+};
