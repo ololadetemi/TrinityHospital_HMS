@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { authenticate, authorize } = require('../middlewares/authMiddleware');
-const adminController = require('../controllers/receptionistController');
+const receptionistController = require('../controllers/receptionistController');
 
 router.post('/create-patient', authenticate, authorize('receptionist'), receptionistController.createPatient);
 router.post('/create-appointment', authenticate, authorize('receptionist'), receptionistController.createAppointment);

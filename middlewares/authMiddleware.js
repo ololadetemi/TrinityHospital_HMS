@@ -1,10 +1,11 @@
 //This middleware is to protect routes and ensure that only authenticated users can access routes
 const jwt = require('jsonwebtoken');
+
 require('dotenv').config();
 
 //to protect routes
 
-exports.protect = async (req, res, next) => {
+exports.authenticate = async (req, res, next) => {
     let token;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ') [1]
@@ -23,8 +24,9 @@ exports.protect = async (req, res, next) => {
     }
 };
 
+
 //To authorize roles
-exports.restrictTo = (...roles) => {
+exports.authorize = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
             return res.status(403).json({ message: 'Access Denied: You do not have authorization' })

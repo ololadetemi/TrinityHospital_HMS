@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const { authenticate, authorize } = require('../middlewares/authMiddleware');
-const adminController = require('../controllers/doctorController');
+const doctorController = require('../controllers/doctorController');
 
 //the routes
 router.get('/get-records', authenticate, authorize('doctor'), doctorController.getPatientRecords);

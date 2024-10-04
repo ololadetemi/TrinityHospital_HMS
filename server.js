@@ -29,7 +29,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 //Routes
 app.use('api/admin', adminRoutes);
 app.use('api/doctor', doctorRoutes);
-app.use('api/labTechnician', labTechnicianRoutes);
+app.use('api/labTechnician', labRoutes);
 app.use('api/receptionist', receptionistRoutes);
 
 //render home page for api testing
