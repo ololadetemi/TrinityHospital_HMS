@@ -16,14 +16,29 @@ mongoose.connect(process.env.MONGODB_URI, {
 //Create the first Admin
 const seedAdmin = async () => {
     try {
+//check if the seed admin already exists
         const existingAdmin = await User.findOne({ role: 'admin' });
         if (existingAdmin) {
             console.log('Admin already exists');
             process.exit();
         }
-        const hashedPassword = await bcrypt.hash('admin2024')
+
+//If seed admin doesn't exist it moves to this code and hashes password
+        const hashedPassword = await bcrypt.hash('admin2024', 10);
+//Creating a new admin; the seed admin
+        const adminUser = new User({
+            name: 'Admin',
+            email: 'admin2024@gmail.com',
+            password: hashedPassword,
+            role: 'admin',
+        });
+        await adminUser.save();
+        console.log('SeedAdmin created successfully');
+        process.exit();
     } catch (err) {
         console.error('Error creating SeedAdmin:', err);
         process.exit(1);
     }
 };
+
+seedAdmin();
