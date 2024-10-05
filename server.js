@@ -28,7 +28,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 .catch((err) => console.log(`Datbase connection error:', ${err}`));
 
 //Routes
-app.use('api/auth', authRoutes);
+app.use('/auth', authRoutes);
 app.use('api/admin', adminRoutes);
 app.use('api/doctor', doctorRoutes);
 app.use('api/labTechnician', labRoutes);

@@ -31,7 +31,13 @@ exports.register = async(req, res) => {
     const { name, email, role, password } = req.body;
 
     try {
-        const newUser = new User({ name, email, role, password });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ 
+            name, 
+            email, 
+            role, 
+            password: hashedPassword, 
+        });
         await newUser.save();
         res.status(201).json({ message: 'User created successfully', user: newUser });
     } catch (error) {

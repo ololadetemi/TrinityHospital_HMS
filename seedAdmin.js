@@ -6,7 +6,7 @@ const User = require('./models/userModel');
 require('dotenv').config();
 
 //Database connection
-mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 30000 })
+mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 50000 })
 .then(() => console.log('MongoDB Connected'))
 .catch((err) => console.log('Database connection error:', err));
 
