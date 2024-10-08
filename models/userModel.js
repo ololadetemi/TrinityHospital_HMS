@@ -38,6 +38,7 @@ userSchema.pre('save',async function (next) {
     try {
         const salt = await bcrypt.genSalt(10);
         this.password = await bcrypt.hash(this.password, salt);
+        console.log(`Hashed password: ${this.password}`);
         console.log('User about to be created', this)
         next();
     } catch (error) {
@@ -45,11 +46,15 @@ userSchema.pre('save',async function (next) {
     }
 });
 //to compare inputed password to hashed password
-userSchema.methods.comparePassword= async function (password) {
-    return await bcrypt.compare(password, this.password);
+userSchema.methods.comparePassword = async function (candidatePassword) {
+    console.log(`Candidate Password: ${candidatePassword}`);
+    console.log(`Stored Hashed Password: ${this.password}`);
+    const match = await bcrypt.compare(candidatePassword, this.password);
+    
+    return await bcrypt.compare(candidatePassword, this.password);
 
 };
 
-const User = mongoose.model('user', userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;
